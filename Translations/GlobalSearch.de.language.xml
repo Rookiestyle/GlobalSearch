@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Translation>
+  <TranslationVersion>2</TranslationVersion>
+  <item>
+    <key>Description</key>
+    <value>Bitte wähle aus, welche Suchfunktionen {0} erweitern soll.
+
+{0} führt die Suche in allen geöffneten Datenbanken aus und zeigt im Ergebnis auch die Datenbank an, in der ein gefundener Eintrag enthalten ist.
+	
+KeePass und viele der verfügbaren Plugins gehen davon aus, dass alle in der Eintragsliste angezeigten Einträge in der aktuell aktiven Datenbank enthalten sind.
+Aus Kompatibilitätsgründen und zur Vermeidung von Inkonsistenzen (Kennzeichen der falschen Datenbank als geändert, ...), beachte bitte folgendes:
+
+Wenn eine Suche Ergebnisse aus mehreren Datenbanken findet, werden diese Ergebnisse in einem eigenen Fenster angezeigt.
+Bei Auswahl eines Eintrags
+- wird die Datenbank aktiviert, die den Eintrag enthält
+- werden alle gefunden Einträge in der Eintragsliste angezeigt, die in dieser Datenbank enthalten sind
+
+Wenn '{1}' nur Einträge aus genau einer Datenbank findet, dann wird diese Datenbank aktiviert und die Ergebnisse werden wie gewohnt angezeigt.</value>
+  </item>
+  <item>
+	<key>OptionsCaption</key>
+	<value>Suchfunktionen erweitern</value>
+  </item>
+  <item>
+    <key>Search</key>
+    <value>Suche in allen geöffneten Datenbanken</value>
+  </item>
+    <item>
+    <key>MultiDBSearchInfoSearchFormActive</key>
+    <value>Info, wenn '{0}' Einträge mehrerer Datenbanken enthält</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSearchForm</key>
+    <value>Das Ergebnis dieser Suche enthält Einträge aus mindestens 2 Datenbanken und wird in einem eigenem Fenster angezeigt.
+Nach Auswahl eines Eintrags werden nur die gefundenen Einträge angezeigt, die in der Datenbank des ausgewählten Eintrag sind.
+
+Um diese Meldung zu deaktivieren, wähle {0} oder besuche die Pluginoptionen.</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSingleSearchActive</key>
+    <value>Info, wenn andere Suchen Einträge mehrerer Datenbanken enthalten</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSingleSearch</key>
+    <value>Diese Suche hat Einträge aus mindestens einer nicht aktiven Datenbank gefunden.
+Es werden nur die gefundenen Einträge angezeigt, die in der Datenbank des ausgewählten Eintrag sind.
+
+Um diese Meldung zu deaktivieren, wähle {0} oder besuche die Pluginoptionen.</value>
+  </item>
+  <item>
+    <key>ErrorNoActivation</key>
+	<value>{0} kann nicht aktiviert werden.
+
+Nicht alle erforderlichen Objekte gefunden.</value>
+  </item>
+</Translation>

@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalSearch", "src\GlobalSearch.csproj", "{FC0F9EF6-35AF-4363-85F6-D631F4C62A95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeePass", "..\_KeePass_Source\KeePass\KeePass.csproj", "{10938016-DEE2-4A25-9A5A-8FD3444379CA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F2144659-7E82-4F01-A127-B8A2D1F0F161}"
+	ProjectSection(SolutionItems) = preProject
+		plgxcreate.cmd = plgxcreate.cmd
+		version.info = version.info
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		ReleasePlgx|Any CPU = ReleasePlgx|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC0F9EF6-35AF-4363-85F6-D631F4C62A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC0F9EF6-35AF-4363-85F6-D631F4C62A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC0F9EF6-35AF-4363-85F6-D631F4C62A95}.ReleasePlgx|Any CPU.ActiveCfg = ReleasePlgx|Any CPU
+		{FC0F9EF6-35AF-4363-85F6-D631F4C62A95}.ReleasePlgx|Any CPU.Build.0 = ReleasePlgx|Any CPU
+		{10938016-DEE2-4A25-9A5A-8FD3444379CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10938016-DEE2-4A25-9A5A-8FD3444379CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10938016-DEE2-4A25-9A5A-8FD3444379CA}.ReleasePlgx|Any CPU.ActiveCfg = Release|Any CPU
+		{10938016-DEE2-4A25-9A5A-8FD3444379CA}.ReleasePlgx|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DBDB9C84-D902-4C2A-97EB-96F11E95C4AE}
+	EndGlobalSection
+EndGlobal
