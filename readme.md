@@ -1,7 +1,7 @@
 # GlobalSearch
 [![Version](https://img.shields.io/github/release/rookiestyle/globalsearch)](https://github.com/rookiestyle/globalsearch/releases/latest)
 [![Releasedate](https://img.shields.io/github/release-date/rookiestyle/globalsearch)](https://github.com/rookiestyle/globalsearch/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/rookiestyle/globalsearch/total?color=%2300cc00)](https://github.com/rookiestyle/globalsearch/releases/latest)\
+[![Downloads](https://img.shields.io/github/downloads/rookiestyle/globalsearch/total?color=%2300cc00)](https://github.com/rookiestyle/globalsearch/releases/latest/download/GlobalSearch.plgx)\
 [![License: GPL v3](https://img.shields.io/github/license/rookiestyle/globalsearch)](https://www.gnu.org/licenses/gpl-3.0)
 
 Keepass offers a variety of powerful search functions, unfortunately none of them performs a search in all currently open databases.
@@ -25,7 +25,7 @@ Currently covered search functions:
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [Translations](#translations)
-- [Requirements](#requirements)
+- [Download and Requirements](#download-and-requirements)
 
 # Configuration
 GlobalSearch integrates into KeePass' options form.
@@ -71,5 +71,12 @@ Example: `GlobalSearch.de.language.xml`
 The language identifier in the filename must match the language identifier inside the KeePass language that you can select using *View -> Change language...*\
 This identifier is shown there as well, if you have [EarlyUpdateCheck](https://github.com/rookiestyle/earlyupdatecheck) installed.
 
-# Requirements
+# Download and Requirements
+## Download
+Please follow these links to download the plugin file itself.
+- [Download newest release](https://github.com/rookiestyle/globalsearch/releases/latest/download/GlobalSearch.plgx)
+- [Download history](https://github.com/rookiestyle/globalsearch/releases)
+
+If you're interested in any of the available translations in addition, please download them from the [Translations](Translations) folder.
+## Requirements
 * KeePass: 2.41
