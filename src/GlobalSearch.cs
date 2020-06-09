@@ -164,7 +164,6 @@ namespace GlobalSearch
 					lInfos.Add(d.Method.DeclaringType.FullName + " " + d.Method.Name);
 				lInfos.Insert(0, "Count: " + lInfos.Count.ToString());
 				lInfos.Insert(0, fi.ToString());
-				PluginDebug.DebugMode = true;
 				PluginDebug.AddInfo("Replaced eventhandler", 0, lInfos.ToArray());
 				m_btnOK.RemoveEventHandlers("Click", fi.StandardEventHandlers);
 				m_btnOK.Click += OnSearchExecute;
