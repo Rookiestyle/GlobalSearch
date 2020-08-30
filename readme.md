@@ -20,6 +20,7 @@ Currently covered search functions:
 - Similar Passwords (Pairs)...
 - Similar Passwords (Clusters)...
 - Password Quality...
+- Expired entries
 
 # Table of Contents
 - [Configuration](#configuration)
@@ -60,10 +61,10 @@ Selecting an entry will
 ![Options](images/GlobalSearch%20-%20Duplicate%20Password%20Result.png)
 
 # Translations
-GlobalSearch is provided with english language built-in and allow usage of translation files.
+GlobalSearch is provided with English language built-in and allow usage of translation files.
 These translation files need to be placed in a folder called *Translations* inside in your plugin folder.
-If a text is missing in the translation file, it is backfilled with the english text.
-You're welcome to add additional translation files by creating a pull request.
+If a text is missing in the translation file, it is backfilled with the English text.
+You're welcome to add additional translation files by creating a pull request as described in the [wiki](https://github.com/Rookiestyle/GlobalSearch/wiki/Create-or-update-translations).
 
 Naming convention for translation files: `<plugin name>.<language identifier>.language.xml`\
 Example: `GlobalSearch.de.language.xml`

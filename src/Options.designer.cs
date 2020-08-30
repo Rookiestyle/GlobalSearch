@@ -43,6 +43,7 @@
 			this.cbSearchForm = new System.Windows.Forms.CheckBox();
 			this.tpHelp = new System.Windows.Forms.TabPage();
 			this.tbDesc = new System.Windows.Forms.TextBox();
+			this.cbSearchAllExpired = new System.Windows.Forms.CheckBox();
 			this.tcTabs.SuspendLayout();
 			this.tpOptions.SuspendLayout();
 			this.tpHelp.SuspendLayout();
@@ -62,6 +63,7 @@
 			// tpOptions
 			// 
 			this.tpOptions.BackColor = System.Drawing.Color.Transparent;
+			this.tpOptions.Controls.Add(this.cbSearchAllExpired);
 			this.tpOptions.Controls.Add(this.cbMultiDBSearchInfoSearchFormActive);
 			this.tpOptions.Controls.Add(this.cbMultiDBSearchInfoSingleSearchActive);
 			this.tpOptions.Controls.Add(this.cbSearchPwQuality);
@@ -207,6 +209,18 @@
 			this.tbDesc.Size = new System.Drawing.Size(376, 459);
 			this.tbDesc.TabIndex = 6;
 			// 
+			// cbAllExpired
+			// 
+			this.cbSearchAllExpired.AutoSize = true;
+			this.cbSearchAllExpired.Dock = System.Windows.Forms.DockStyle.Top;
+			this.cbSearchAllExpired.Location = new System.Drawing.Point(10, 178);
+			this.cbSearchAllExpired.Name = "cbAllExpired";
+			this.cbSearchAllExpired.Size = new System.Drawing.Size(376, 24);
+			this.cbSearchAllExpired.TabIndex = 82;
+			this.cbSearchAllExpired.Text = "All expired";
+			this.cbSearchAllExpired.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.cbSearchAllExpired.UseVisualStyleBackColor = true;
+			// 
 			// Options
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -239,5 +253,6 @@
 		internal System.Windows.Forms.CheckBox cbSearchLastMod;
 		internal System.Windows.Forms.CheckBox cbMultiDBSearchInfoSingleSearchActive;
 		internal System.Windows.Forms.CheckBox cbMultiDBSearchInfoSearchFormActive;
+		internal System.Windows.Forms.CheckBox cbSearchAllExpired;
 	}
 }

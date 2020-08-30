@@ -38,6 +38,12 @@ namespace GlobalSearch
 			AdjustCheckBox(cbSearchPwPairs, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordPairs));
 			AdjustCheckBox(cbSearchPwCluster, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordClusters));
 			AdjustCheckBox(cbSearchPwQuality, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordQuality));
+			AdjustCheckBox(cbSearchPwQuality, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordQuality));
+
+			FindInfo fiExpired = SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchExpired);
+			cbSearchAllExpired.Enabled = fiExpired.StandardMethod != null;
+			cbSearchAllExpired.Text = KeePass.Resources.KPRes.ExpiredEntries;
+
 			cbMultiDBSearchInfoSearchFormActive.Text = string.Format(PluginTranslate.MultiDBSearchInfoSearchFormActive, cbSearchForm.Text);
 			cbMultiDBSearchInfoSingleSearchActive.Text = PluginTranslate.MultiDBSearchInfoSingleSearchActive;
 			string sDesc = string.Format(PluginTranslate.Description, PluginTranslate.PluginName, cbSearchForm.Text);

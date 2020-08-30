@@ -222,7 +222,7 @@ namespace GlobalSearch
 				}
 				else
 				{
-					lMsg.Add("Clling standard method");
+					lMsg.Add("Calling standard method");
 					m_btnOK.PerformClick();
 				}
 				if ((m_sf.SearchResultsGroup == null) || (m_sf.SearchResultsGroup.Entries == null))
@@ -260,7 +260,7 @@ namespace GlobalSearch
 			{
 				PwDatabase db = m_host.MainWindow.DocumentManager.FindContainerOf(pe);
 				if (!m_dDBGroups.ContainsKey(db))
-					m_dDBGroups[db] = new PwGroup(true, false, GetDBName(pe), PwIcon.Folder) { IsVirtual = true };
+					m_dDBGroups[db] = new PwGroup(true, false, SearchHelp.GetDBName(pe), PwIcon.Folder) { IsVirtual = true };
 				m_dDBGroups[db].AddEntry(pe, false);
 				if (dbFirst == null) dbFirst = db;
 				bMultipleDB |= db != dbFirst;
@@ -341,7 +341,7 @@ namespace GlobalSearch
 				}
 				ListViewItem lvi = new ListViewItem();
 				lvi.Tag = pe;
-				lvi.Text = GetDBName(pe);
+				lvi.Text = SearchHelp.GetDBName(pe);
 				lvi.ImageIndex = dEntryIconIndex[pe];
 				ListViewItem.ListViewSubItem lvsi = null;
 				//Show all columns that are shown in the entry list view if possible
@@ -456,7 +456,10 @@ namespace GlobalSearch
 			List<object> l = null;
 			try
 			{
-				object[] parameters = new object[] { dbAll, sl, null };
+				object[] parameters;
+				if (fi.SearchType != SearchType.BuiltIn) parameters = new object[] { dbAll, sl, null, fi };
+				else parameters = new object[] { dbAll, sl, null };
+				
 				l = (List<object>)fi.StandardMethod.Invoke(m_host, parameters);
 				m_aStandardLvInit = (Action<ListView>)parameters[2];
 			}
@@ -487,7 +490,7 @@ namespace GlobalSearch
 				ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem();
 				if (lvi.Tag is PwEntry)
 				{
-					lvsi.Text = GetDBName(lvi.Tag as PwEntry);
+					lvsi.Text = SearchHelp.GetDBName(lvi.Tag as PwEntry);
 					PwEntry pe = lvi.Tag as PwEntry;
 					PwDatabase db = m_host.MainWindow.DocumentManager.FindContainerOf(pe);
 					if (!pe.CustomIconUuid.Equals(PwUuid.Zero))
@@ -500,7 +503,7 @@ namespace GlobalSearch
 				else if (lvi.Tag is PwGroup)
 				{
 					PwGroup pg = lvi.Tag as PwGroup;
-					lvsi.Text = GetDBName(pg.Entries.GetAt(0));
+					lvsi.Text = SearchHelp.GetDBName(pg.Entries.GetAt(0));
 				}
 				lvi.SubItems.Insert(0, lvsi);
 			}
@@ -649,15 +652,6 @@ namespace GlobalSearch
 			return dbAll;
 		}
 
-		private string GetDBName(PwEntry pe)
-		{
-			if (pe == null) return string.Empty;
-			PwDatabase db = m_host.MainWindow.DocumentManager.FindContainerOf(pe);
-			if (db == null) return string.Empty;
-			if (!string.IsNullOrEmpty(db.Name)) return db.Name;
-			return KeePassLib.Utility.UrlUtil.GetFileName(db.IOConnectionInfo.Path);
-		}
-
 		private void ReplaceFindHandlers()
 		{
 			GetFindHandlers();
@@ -715,6 +709,7 @@ namespace GlobalSearch
 			o.cbSearchPwQuality.Checked = o.cbSearchPwQuality.Enabled && Config.HookPwQuality;
 			o.cbSearchLarge.Checked = o.cbSearchLarge.Enabled && Config.HookLargeEntries;
 			o.cbSearchLastMod.Checked = o.cbSearchLastMod.Enabled && Config.HookLastMod;
+			o.cbSearchAllExpired.Checked = o.cbSearchAllExpired.Enabled && Config.HookAllExpired;
 			o.cbMultiDBSearchInfoSearchFormActive.Checked = Config.ShowMultiDBInfoSearchForm;
 			o.cbMultiDBSearchInfoSingleSearchActive.Checked = Config.ShowMultiDBInfoSingleSearch;
 			Tools.AddPluginToOptionsForm(this, o);
@@ -733,6 +728,7 @@ namespace GlobalSearch
 			if (o.cbSearchPwQuality.Enabled) Config.HookPwQuality = o.cbSearchPwQuality.Checked;
 			if (o.cbSearchLarge.Enabled) Config.HookLargeEntries = o.cbSearchLarge.Checked;
 			if (o.cbSearchLastMod.Enabled) Config.HookLastMod = o.cbSearchLastMod.Checked;
+			if (o.cbSearchAllExpired.Enabled) Config.HookAllExpired = o.cbSearchAllExpired.Checked;
 			Config.ShowMultiDBInfoSearchForm = o.cbMultiDBSearchInfoSearchFormActive.Checked;
 			Config.ShowMultiDBInfoSingleSearch = o.cbMultiDBSearchInfoSingleSearchActive.Checked;
 			Activate();
