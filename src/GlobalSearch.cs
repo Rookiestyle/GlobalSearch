@@ -284,7 +284,7 @@ namespace GlobalSearch
 					pgSF.Entries.Clear();
 					pgSF.Entries.Add(g.Entries);
 				}
-				m_host.MainWindow.UpdateUI(false, m_host.MainWindow.DocumentManager.FindDocument(dbFirst), false, null, false, null, false);
+				m_host.MainWindow.UpdateUI(false, m_host.MainWindow.DocumentManager.FindDocument(dbFirst), true, null, false, null, false);
 				il.Dispose();
 				m_sf.DialogResult = DialogResult.OK;
 				return;
@@ -340,7 +340,7 @@ namespace GlobalSearch
 					}
 				}
 				ListViewItem lvi = new ListViewItem();
-				lvi.Tag = pe;
+				lvi.Tag = new object[] { pe, g };
 				lvi.Text = SearchHelp.GetDBName(pe);
 				lvi.ImageIndex = dEntryIconIndex[pe];
 				ListViewItem.ListViewSubItem lvsi = null;
@@ -527,8 +527,17 @@ namespace GlobalSearch
 
 		private void NavigateToSelectedEntry(ListViewForm dlg, bool CalledFromSearchForm)
 		{
-			PwGroup pg = (dlg.ResultGroup as PwGroup);
-			PwEntry pe = (dlg.ResultItem as PwEntry);
+			PwGroup pg = dlg.ResultGroup as PwGroup; //parent group of selected entry
+			PwEntry pe = dlg.ResultItem as PwEntry;
+			if (pe == null) //try getting the virtual group for the selected entries database
+			{
+				object[] oEntryAndGroup = dlg.ResultItem as object[];
+				if ((oEntryAndGroup != null) && (oEntryAndGroup.Length == 2))
+				{
+					pe = oEntryAndGroup[0] as PwEntry;
+					pg = oEntryAndGroup[1] as PwGroup;
+				}
+			}
 			if (pe != null) ActivateDB(pe);
 			if ((pg == null) && (pe == null))
 				pg = (dlg.ResultItem as PwGroup);
