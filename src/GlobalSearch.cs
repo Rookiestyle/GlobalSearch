@@ -85,6 +85,7 @@ namespace GlobalSearch
 				{
 					bSFRelevant = f.GetMethod().Name == "OnFindInDatabase";
 					bSFRelevant |= f.GetMethod().Name == "OnPwListFind"; //KeePass 2.41
+					bSFRelevant |= f.GetMethod().Name == "PerformSearchDialog"; //KeePass 2.41
 					lSF.Add(f.GetMethod().Name);
 					if (bSFRelevant) break;
 				}
@@ -114,14 +115,16 @@ namespace GlobalSearch
 			CheckBox m_cbIgnoreGroupSettings = (CheckBox)Tools.GetControl("m_cbIgnoreGroupSettings", form);
 			CheckBox m_cbDerefData = (CheckBox)Tools.GetControl("m_cbDerefData", form);
 			m_btnOK = (Button)Tools.GetControl("m_btnOK", form);
-			Button m_btnCancel = (Button)Tools.GetControl("m_btnCancel", form);
-			if ((m_cbIgnoreGroupSettings == null) || (m_cbDerefData == null) || (m_btnOK == null) || (m_btnCancel == null))
+			Button btnCancel = (Button)Tools.GetControl("m_btnCancel", form);
+			Button btnHelp = (Button)Tools.GetControl("m_btnHelp", form); //KeePass 2.47
+			if ((m_cbIgnoreGroupSettings == null) || (m_cbDerefData == null) || (m_btnOK == null) || (btnCancel == null))
 			{
 				PluginDebug.AddError("Could not add 'Search in all DB' checkbox", 0,
 					"m_cbIgnoreGroupSettings: " + (m_cbIgnoreGroupSettings == null).ToString(),
 					"m_cbDerefData: " + (m_cbDerefData == null).ToString(),
 					"m_btnOK: " + (m_btnOK == null).ToString(),
-					"m_btnCancel: " + (m_btnCancel == null).ToString());
+					"m_btnCancel: " + (btnCancel == null).ToString(),
+					"m_btnHelp: " + (btnHelp == null).ToString());
 				return false;
 			}
 			m_cbSearchAllDatabases = new CheckBox();
@@ -138,7 +141,8 @@ namespace GlobalSearch
 				c = c.Parent;
 			}
 			m_btnOK.Top += spacing;
-			m_btnCancel.Top += spacing;
+			btnCancel.Top += spacing;
+			if (btnHelp != null) btnHelp.Top += spacing;
 			m_cbDerefData.Parent.Controls.Add(m_cbSearchAllDatabases);
 			PluginDebug.AddInfo("'Search db' checkbox added", 0);
 			if (m_cbSearchAllDatabases.Enabled)
@@ -233,12 +237,12 @@ namespace GlobalSearch
 				{
 					lMsg.Add("Found entries: " + m_sf.SearchResultsGroup.Entries.UCount.ToString());
 				}
-				if (g == null) g = m_sf.SearchResultsGroup.CloneDeep();
-				else
-				{
-					foreach (PwEntry pe in m_sf.SearchResultsGroup.Entries)
-						g.AddEntry(pe, false);
-				}
+
+				//Do NOT use m_sf.SearchResultsGroup.CloneDeep
+				//It makes the virtual SearchResultsGroup the 
+				//parent group of the found entries
+				if (g == null) g = new PwGroup(true, true, m_sf.SearchResultsGroup.Name, m_sf.SearchResultsGroup.IconId);
+				foreach (PwEntry pe in m_sf.SearchResultsGroup.Entries)	g.AddEntry(pe, false);
 				PluginDebug.AddInfo("Executing search", 0, lMsg.ToArray());
 			}
 
@@ -256,11 +260,16 @@ namespace GlobalSearch
 			Dictionary<PwEntry, int> dEntryIconIndex = new Dictionary<PwEntry, int>();
 			PwDatabase dbFirst = null;
 			bool bMultipleDB = false;
+
 			foreach (PwEntry pe in g.Entries)
 			{
 				PwDatabase db = m_host.MainWindow.DocumentManager.FindContainerOf(pe);
-				if (!m_dDBGroups.ContainsKey(db))
-					m_dDBGroups[db] = new PwGroup(true, false, SearchHelp.GetDBName(pe), PwIcon.Folder) { IsVirtual = true };
+				if (db == null)
+				{
+					PluginDebug.AddError("Could not get database for entry", 0, pe.Uuid.ToHexString());
+					continue;
+				}
+				if (!m_dDBGroups.ContainsKey(db))	m_dDBGroups[db] = new PwGroup(true, false, SearchHelp.GetDBName(pe), PwIcon.Folder) { IsVirtual = true };
 				m_dDBGroups[db].AddEntry(pe, false);
 				if (dbFirst == null) dbFirst = db;
 				bMultipleDB |= db != dbFirst;
@@ -284,7 +293,13 @@ namespace GlobalSearch
 					pgSF.Entries.Clear();
 					pgSF.Entries.Add(g.Entries);
 				}
-				m_host.MainWindow.UpdateUI(false, m_host.MainWindow.DocumentManager.FindDocument(dbFirst), true, null, false, null, false);
+				else //KeePass 2.47
+				{
+					pgSF = new PwGroup(true, true, g.Name, g.IconId);
+					pgSF.IsVirtual = true;
+					pgSF.Entries.Add(g.Entries);
+				}
+				m_host.MainWindow.UpdateUI(false, m_host.MainWindow.DocumentManager.FindDocument(dbFirst), true, pgSF, false, null, false);
 				il.Dispose();
 				m_sf.DialogResult = DialogResult.OK;
 				return;
