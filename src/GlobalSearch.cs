@@ -299,17 +299,28 @@ namespace GlobalSearch
 					pgSF.IsVirtual = true;
 					pgSF.Entries.Add(g.Entries);
 				}
+				PluginDebug.AddInfo("Found "+pgSF.Entries.UCount.ToString()+" entries in 1 database");
 				m_host.MainWindow.UpdateUI(false, m_host.MainWindow.DocumentManager.FindDocument(dbFirst), true, pgSF, false, null, false);
 				il.Dispose();
+				m_sf.SearchResultsGroup.Entries.Clear();
+				m_sf.SearchResultsGroup.Entries.Add(pgSF.Entries);
 				m_sf.DialogResult = DialogResult.OK;
 				return;
 			}
 
 			//We found entries from at least 2 databases
 			//Show the results in ListViewForm and close SearchForm
-			m_sf.DialogResult = DialogResult.Abort;
-			m_sf.Visible = false;
-			m_sf.Close();
+			try
+			{
+				PluginDebug.AddInfo("Found " + g.Entries.UCount.ToString() + " entries in multiple database");
+				m_sf.DialogResult = DialogResult.Abort;
+				m_sf.Visible = false;
+				m_sf.Close();
+			}
+			catch (Exception ex)
+			{
+				PluginDebug.AddError("Error closing searchform", new string[] { ex.Message });
+			}
 
 			m_aStandardLvInit = InitListViewMain;
 			List<object> l = GetFoundEntriesList(g, dEntryIconIndex);
@@ -320,10 +331,18 @@ namespace GlobalSearch
 			sSubTitle = sSubTitle.Replace("{PARAM}", iCount.ToString());
 			dlg.InitEx(KPRes.Search, sSubTitle, null, null, l, il, InitListView);
 			ShowMultiDBInfo(true);
-			UIUtil.ShowDialogAndDestroy(dlg);
-			if (dlg.DialogResult != DialogResult.OK) return;
+			PluginDebug.AddInfo("Multi-DB results: Show", 0);
+			if (UIUtil.ShowDialogNotValue(dlg, DialogResult.OK))
+			{
+				PluginDebug.AddInfo("Multi-DB results: Shown", 0);
+				return;
+			}
+			PluginDebug.AddInfo("Multi-DB results: Show and navigate", 0);
 			il.Dispose();
 			NavigateToSelectedEntry(dlg, true);
+			PluginDebug.AddInfo("Multi-DB results: Dispose form", 0);
+			UIUtil.DestroyForm(dlg);
+			PluginDebug.AddInfo("Multi-DB results: Disposed form", 0);
 		}
 
 		private List<object> GetFoundEntriesList(PwGroup g, Dictionary<PwEntry, int> dEntryIconIndex)
