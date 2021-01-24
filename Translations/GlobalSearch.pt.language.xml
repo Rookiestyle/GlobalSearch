@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Translation>
+  <TranslationVersion>1</TranslationVersion>
+  <item>
+    <key>Description</key>
+    <value>Selecione as funções de pesquisa que {0} deve aprimorar.
+	
+{0} irá realizar a pesquisa em todos os bancos de dados abertos e irá enriquecer o resultado mostrado com o banco de dados em que uma entrada encontrada está contida.
+
+KeePass, bem como muitos dos plug-ins disponíveis, presume que todas as entradas mostradas na lista de entradas estão contidas no banco de dados ativo no momento.
+Para não quebrar a compatibilidade e evitar inconsistências, como sinalizar o banco de dados errado como alterado, {0} se comportará da seguinte forma:
+
+Se uma pesquisa retornar resultados de vários bancos de dados, os resultados serão mostrados em uma janela separada. 
+Selecionar uma entrada irá
+- Ativa a base de dados da entrada seleccionada
+- Mostra todas as entradas encontradas na lista de entradas, que estão contidas neste banco de dados
+
+Se '{1}' retornar apenas entradas de exatamente um banco de dados, este banco de dados será ativado e os resultados da pesquisa serão exibidos normalmente.</value>
+  </item>
+  <item>
+    <key>OptionsCaption</key>
+    <value>Aprimorar as pesquisas</value>
+  </item>
+  <item>
+    <key>Search</key>
+    <value>Pesquisar em todos os bancos de dados abertos</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSearchFormActive</key>
+    <value>Mostrar informações se '{0}' retornar entradas de vários bancos de dados</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSearchForm</key>
+    <value>O resultado desta pesquisa contém entradas de vários bancos de dados e será exibido em uma janela separada.
+Depois de selecionar uma entrada, a lista de entradas mostrará apenas as entradas encontradas contidas no banco de dados da entrada selecionada.
+
+Para desativar esta mensagem, pressione 'N{0}' ou visite as opções do plugin.</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSingleSearchActive</key>
+    <value>Mostrar informações se outras pesquisas retornarem entradas de vários bancos de dados</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSingleSearch</key>
+    <value>Você selecionou uma entrada de um resultado de pesquisa multi-db.
+A lista de entradas mostrará apenas as entradas encontradas contidas no banco de dados da entrada selecionada.
+
+Para desativar esta mensagem, pressione '{0}' ou visite as opções do plugin.</value>
+  </item>
+  <item>
+    <key>ErrorNoActivation</key>
+    <value>A ativação de {0} não é possível.
+
+Não foi possível encontrar os objetos necessários</value>
+  </item>
+</Translation>
