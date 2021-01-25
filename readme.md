@@ -34,7 +34,7 @@ GlobalSearch integrates into KeePass' options form.
 
 The upper part lets you chose which search functions shall be enhanced.  
 GlobalSearch will perform a search in all open databases if both criteria are met:
-- More then one database is opened
+- More than one database is opened
 - The corresponding option in GlobalSearch's configuration is active
 
 The lower part will show additional information if a search returned results from multiple databases.
