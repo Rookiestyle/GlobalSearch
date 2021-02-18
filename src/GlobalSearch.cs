@@ -160,6 +160,7 @@ namespace GlobalSearch
 		{
 			if ((m_cbSearchAllDatabases == null) || !m_cbSearchAllDatabases.Enabled) return;
 			FindInfo fi = SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchForm);
+			Config.SearchFormGlobalSession = m_cbSearchAllDatabases.Checked;
 			if (m_cbSearchAllDatabases.Checked)
 			{
 				fi.StandardEventHandlers = m_btnOK.GetEventHandlers("Click");
@@ -191,7 +192,7 @@ namespace GlobalSearch
 		{
 			m_sf.Shown -= OnSearchFormShown;
 			if ((m_cbSearchAllDatabases == null) || !m_cbSearchAllDatabases.Enabled) return;
-			m_cbSearchAllDatabases.Checked = true;
+			m_cbSearchAllDatabases.Checked = Config.SearchFormGlobalSession;
 		}
 
 		private void OnSearchExecute(object sender, EventArgs e)
@@ -805,7 +806,7 @@ namespace GlobalSearch
 			}
 
 			GlobalWindowManager.WindowAdded -= OnSearchFormAdded;
-			if (Config.SearchForm) GlobalWindowManager.WindowAdded += OnSearchFormAdded;
+			GlobalWindowManager.WindowAdded += OnSearchFormAdded;
 
 			RestoreFindHandlers();
 			ReplaceFindHandlers();

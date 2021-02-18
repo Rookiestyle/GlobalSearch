@@ -10,7 +10,19 @@ namespace GlobalSearch
 		public static bool SearchForm
 		{
 			get { return CustomConfig.GetBool(ConfigActive, true); }
-			set { CustomConfig.SetBool(ConfigActive, value); }
+			set { CustomConfig.SetBool(ConfigActive, value); m_SearchFormGlobalSession = value; }
+
+		}
+
+		private static bool? m_SearchFormGlobalSession = null;
+		public static bool SearchFormGlobalSession
+		{
+			get 
+			{ 
+				if (!m_SearchFormGlobalSession.HasValue) m_SearchFormGlobalSession = SearchForm;
+				return m_SearchFormGlobalSession.Value; ;
+			}
+			set { m_SearchFormGlobalSession = value; }
 		}
 
 		private const string ConfigShowMultiDBInfoSearchForm = "GlobalSearch.ShowMultiDBInfoSearchForm";
