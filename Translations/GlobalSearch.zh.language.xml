@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Translation>
+  <TranslationVersion>1</TranslationVersion>
+  <item>
+    <key>Description</key>
+    <value>请选择 {0} 应该增强的搜索功能。
+	
+{0} 将在所有打开的数据库中执行搜索，并将使用包含搜索结果的数据库来丰富显示。
+
+KeePass 以及许多可用的插件都假定条目列表中，显示的所有条目都包含在当前活动的数据库中。
+为了不破坏兼容性并避免诸如将错误的数据库标记为已更改之类的矛盾，{0} 的行为如下：
+
+如果搜索从多个数据库返回结果，则结果将显示在单独的窗口中。 
+选择一个条目将
+- 激活所选条目的数据库
+- 显示在此数据库中匹配的所有条目
+
+如果 '{1}' 仅返回仅来自一个数据库的条目，则该数据库将被激活，并且搜索结果将照常显示。</value>
+  </item>
+  <item>
+    <key>OptionsCaption</key>
+    <value>增强搜索</value>
+  </item>
+  <item>
+    <key>Search</key>
+    <value>在所有打开的数据库中搜索</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSearchFormActive</key>
+    <value>如果 '{0}' 从多个数据库返回条目，则显示信息</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSearchForm</key>
+    <value>搜索的结果包含来自多个数据库的条目，并将显示在单独的窗口中。
+选择条目后，条目列表将仅显示所选条目的数据库中，包含的找到的条目。
+
+要禁用此消息，请按 'N{0}' 或访问插件的选项。</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSingleSearchActive</key>
+    <value>如果其他搜索从多个数据库返回条目，则显示信息</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSingleSearch</key>
+    <value>您从多数据库搜索结果中，选择了一个条目。
+条目列表将仅显示所选条目的数据库中，包含的找到的条目。
+
+要禁用此消息，请按 '{0}' 或访问插件的选项。</value>
+  </item>
+  <item>
+    <key>ErrorNoActivation</key>
+    <value>无法激活 {0} 。
+
+找不到所需的对象</value>
+  </item>
+</Translation>
