@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Translation>
-  <TranslationVersion>0</TranslationVersion>
+  <TranslationVersion>1</TranslationVersion>
   <item>
     <key>Description</key>
     <value>请选择 {0} 应该增强的搜索功能。
