@@ -333,9 +333,10 @@ namespace GlobalSearch
 			dlg.InitEx(KPRes.Search, sSubTitle, null, null, l, il, InitListView);
 			ShowMultiDBInfo(true);
 			PluginDebug.AddInfo("Multi-DB results: Show", 0);
-			if (UIUtil.ShowDialogNotValue(dlg, DialogResult.OK))
+			if (dlg.ShowDialog(m_host.MainWindow) != DialogResult.OK)
 			{
 				PluginDebug.AddInfo("Multi-DB results: Shown", 0);
+				UIUtil.DestroyForm(dlg);
 				return;
 			}
 			PluginDebug.AddInfo("Multi-DB results: Show and navigate", 0);
