@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -100,6 +101,17 @@ namespace GlobalSearch
 				m_sf.Shown += OnSearchFormShown;
 				m_sf.Closed += OnSearchFormClosed;
 			}
+			if (e.Form is ListViewForm)
+			{
+				ListViewFormAdded(e.Form as ListViewForm);
+			}
+		}
+
+		private void ListViewFormAdded(ListViewForm f)
+		{
+			var lv = f.Controls.OfType<ListView>().ToList().FirstOrDefault();
+			if (lv == null) return;
+			lv.RS_Sortable(true);
 		}
 
 		private void OnSearchFormClosed(object sender, EventArgs e)
