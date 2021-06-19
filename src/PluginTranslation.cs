@@ -61,6 +61,10 @@ To disable this message, choose '{0}' or visit the plugin's options";
 		public static readonly string ErrorNoActivation = @"Activation of {0} not possible.
 
 Could not find required objects";
+		public static readonly string PWDisplayMode = @"Password display";
+		public static readonly string PWDisplayModeAlways = @"Always";
+		public static readonly string PWDisplayModeNever = @"Never";
+		public static readonly string PWDisplayModeEntryView = @"Like Entry List";
 		#endregion
 
 		#region NO changes in this area

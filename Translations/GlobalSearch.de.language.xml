@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Translation>
-  <TranslationVersion>2</TranslationVersion>
+  <TranslationVersion>3</TranslationVersion>
   <item>
     <key>Description</key>
     <value>Bitte wähle aus, welche Suchfunktionen {0} erweitern soll.
@@ -52,5 +52,21 @@ Um diese Meldung zu deaktivieren, wähle {0} oder besuche die Pluginoptionen.</v
 	<value>{0} kann nicht aktiviert werden.
 
 Nicht alle erforderlichen Objekte gefunden.</value>
+  </item>
+    <item>
+    <key>PWDisplayMode</key>
+    <value>Passwortanzeige</value>
+  </item>
+  <item>
+    <key>PWDisplayModeAlways</key>
+    <value>Immer</value>
+  </item>
+  <item>
+    <key>PWDisplayModeNever</key>
+    <value>Nie</value>
+  </item>
+  <item>
+    <key>PWDisplayModeEntryView</key>
+    <value>Wie Eintragsliste</value>
   </item>
 </Translation>

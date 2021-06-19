@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Translation>
+  <!-- 
+    Increment the TranslationVersion every time the translation file is updated
+	Also update the version.info file
+  -->
   <TranslationVersion>0</TranslationVersion>
   <item>
     <key>Description</key>
@@ -34,7 +38,7 @@ If '{1}' returns only entries from exactly one database, this database will be a
     <value>The result of this search contain entries from multiple databases and will be displayed in a separate window.
 After selecting an entry, the entry list will show only found entries contained in the selected entry's database.
 
-To disable this message, press 'N{0}' or visit the plugin's options.</value>
+To disable this message, choose '{0}' or visit the plugin's options</value>
   </item>
   <item>
     <key>MultiDBSearchInfoSingleSearchActive</key>
@@ -45,12 +49,28 @@ To disable this message, press 'N{0}' or visit the plugin's options.</value>
     <value>You selected an entry from a multi-db search result.
 The entry list will show only found entries contained in the selected entry's database.
 
-To disable this message, press '{0}' or visit the plugin's options.</value>
+To disable this message, choose '{0}' or visit the plugin's options</value>
   </item>
   <item>
     <key>ErrorNoActivation</key>
     <value>Activation of {0} not possible.
 
 Could not find required objects</value>
+  </item>
+  <item>
+    <key>PWDisplayMode</key>
+    <value>Password display</value>
+  </item>
+  <item>
+    <key>PWDisplayModeAlways</key>
+    <value>Always</value>
+  </item>
+  <item>
+    <key>PWDisplayModeNever</key>
+    <value>Never</value>
+  </item>
+  <item>
+    <key>PWDisplayModeEntryView</key>
+    <value>Like Entry List</value>
   </item>
 </Translation>

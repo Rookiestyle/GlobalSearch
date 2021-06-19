@@ -112,6 +112,35 @@ namespace GlobalSearch
 			var lv = f.Controls.OfType<ListView>().ToList().FirstOrDefault();
 			if (lv == null) return;
 			lv.RS_Sortable(true);
+			f.Shown += OnShowListviewForm;
+		}
+
+		private void OnShowListviewForm(object sender, EventArgs e)
+		{
+			if (Config.PasswordDisplay == Config.PasswordDisplayMode.Always) return;
+
+			if (Config.PasswordDisplay == Config.PasswordDisplayMode.EntryviewBased)
+			{
+				AceColumn c = KeePass.Program.Config.MainWindow.EntryListColumns.Where(x => x.Type == AceColumnType.Password).FirstOrDefault();
+				if (c != null && !c.HideWithAsterisks) return;
+			}
+
+			var lv = (sender as Form).Controls.OfType<ListView>().ToList().FirstOrDefault();
+			if (lv == null) return;
+			ColumnHeader h = null;
+			foreach (ColumnHeader x in lv.Columns)
+			{
+				if (x.Text == KPRes.Password)
+				{
+					h = x;
+					break;
+				}
+			}
+			if (h == null) return;
+			foreach (ListViewItem x in lv.Items)
+			{
+				x.SubItems[h.Index].Text = PwDefs.HiddenPassword;
+			}
 		}
 
 		private void OnSearchFormClosed(object sender, EventArgs e)
@@ -769,6 +798,7 @@ namespace GlobalSearch
 			o.cbSearchAllExpired.Checked = o.cbSearchAllExpired.Enabled && Config.HookAllExpired;
 			o.cbMultiDBSearchInfoSearchFormActive.Checked = Config.ShowMultiDBInfoSearchForm;
 			o.cbMultiDBSearchInfoSingleSearchActive.Checked = Config.ShowMultiDBInfoSingleSearch;
+			o.SetPwDisplayMode(Config.PasswordDisplay); 
 			Tools.AddPluginToOptionsForm(this, o);
 		}
 
@@ -788,6 +818,7 @@ namespace GlobalSearch
 			if (o.cbSearchAllExpired.Enabled) Config.HookAllExpired = o.cbSearchAllExpired.Checked;
 			Config.ShowMultiDBInfoSearchForm = o.cbMultiDBSearchInfoSearchFormActive.Checked;
 			Config.ShowMultiDBInfoSingleSearch = o.cbMultiDBSearchInfoSingleSearchActive.Checked;
+			Config.PasswordDisplay = o.GetPwDisplayMode();
 			Activate();
 		}
 		#endregion

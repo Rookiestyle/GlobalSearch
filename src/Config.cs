@@ -7,6 +7,8 @@ namespace GlobalSearch
 	{
 		private static AceCustomConfig CustomConfig = KeePass.Program.Config.CustomConfig;
 		private const string ConfigActive = "GlobalSearch.HookSearchForm";
+		private const string ConfigPWDisplay = "GlobalSearch.PWDisplay"; 
+		
 		public static bool SearchForm
 		{
 			get { return CustomConfig.GetBool(ConfigActive, true); }
@@ -88,6 +90,35 @@ namespace GlobalSearch
 			set { CustomConfig.SetBool(ConfigHookAllExpired, value); }
 		}
 
+		public enum PasswordDisplayMode
+		{
+			Always,
+			Never,
+			EntryviewBased,
+		}
+		public static PasswordDisplayMode PasswordDisplay
+		{
+			get 
+			{ 
+				string s = CustomConfig.GetString(ConfigPWDisplay, string.Empty);
+				if (string.IsNullOrEmpty(s))
+				{
+					PasswordDisplay = PasswordDisplayMode.Always;
+					return PasswordDisplayMode.Always;
+				}
+				try 
+				{ 
+					PasswordDisplayMode r = (PasswordDisplayMode)Enum.Parse(typeof(PasswordDisplayMode), s);
+					return r;
+				}
+				catch 
+				{
+					PasswordDisplay = PasswordDisplayMode.Always;
+					return PasswordDisplayMode.Always;
+				}
+			}
+			set { CustomConfig.SetString(ConfigPWDisplay, value.ToString()); }
+		}
 		public static bool HookActive(string menuName)
 		{
 			switch (menuName)
