@@ -48,12 +48,32 @@ namespace GlobalSearch
 			cbMultiDBSearchInfoSingleSearchActive.Text = PluginTranslate.MultiDBSearchInfoSingleSearchActive;
 			string sDesc = string.Format(PluginTranslate.Description, PluginTranslate.PluginName, cbSearchForm.Text);
 			tbDesc.Lines = sDesc.Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+
+			gSearches.Text = KeePass.Resources.KPRes.SearchingOp;
+			gPWDisplay.Text = PluginTranslate.PWDisplayMode;	
+			rbPWDisplayAlways.Text = PluginTranslate.PWDisplayModeAlways;
+			rbPWDisplayNever.Text = PluginTranslate.PWDisplayModeNever;
+			rbPWDisplayEntryList.Text = PluginTranslate.PWDisplayModeEntryView;
 		}
 
 		private void AdjustCheckBox(CheckBox cbBox, FindInfo fiInfo)
 		{
 			cbBox.Text = fiInfo.OptionsText.Replace("&", string.Empty);
 			cbBox.Enabled = fiInfo.StandardMethod != null || (fiInfo.Name == SearchHelp.SearchForm);
+		}
+
+		public void SetPwDisplayMode(Config.PasswordDisplayMode m)
+		{
+			rbPWDisplayAlways.Checked = true;
+			if (m == Config.PasswordDisplayMode.Never) rbPWDisplayNever.Checked = true;
+			if (m == Config.PasswordDisplayMode.EntryviewBased) rbPWDisplayEntryList.Checked = true;
+		}
+
+		public Config.PasswordDisplayMode GetPwDisplayMode()
+		{
+			if (rbPWDisplayNever.Checked) return Config.PasswordDisplayMode.Never;
+			if (rbPWDisplayEntryList.Checked) return Config.PasswordDisplayMode.EntryviewBased;
+			return Config.PasswordDisplayMode.Always;
 		}
 	}
 }
