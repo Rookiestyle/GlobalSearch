@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Translation>
-  <TranslationVersion>1</TranslationVersion>
+  <TranslationVersion>2</TranslationVersion>
   <item>
     <key>Description</key>
     <value>Selecione as funções de pesquisa que {0} deve aprimorar.
@@ -53,4 +53,20 @@ Para desativar esta mensagem, pressione '{0}' ou visite as opções do plugin.</
 
 Não foi possível encontrar os objetos necessários</value>
   </item>
-</Translation>
+  <item>
+    <key>PWDisplayMode</key>
+    <value>Exibir senha</value>
+  </item>
+  <item>
+    <key>PWDisplayModeAlways</key>
+    <value>Sempre</value>
+  </item>
+  <item>
+    <key>PWDisplayModeNever</key>
+    <value>Nunca</value>
+  </item>
+  <item>
+    <key>PWDisplayModeEntryView</key>
+    <value>Como a Lista de Entrada</value>
+  </item>
+</Translation>	  
