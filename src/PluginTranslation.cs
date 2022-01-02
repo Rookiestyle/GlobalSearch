@@ -33,6 +33,21 @@ namespace PluginTranslation
 		private static string LanguageIso6391 = string.Empty;
 		#region Definitions of translated texts go here
 		public const string PluginName = "Global Search";
+		/// <summary>
+		/// Please select the search functions that {0} shall enhance.
+		/// 	
+		/// {0} will perform the search in all open databases and will enrich the result shown with the database a found entry is contained in.
+		/// 
+		/// KeePass as well as many of the available plugins assume that all entries shown in the entry list are contained in the currently active database.
+		/// To not break compatibility and to avoid inconsistencies like flagging the wrong database as changed, {0} will behave as follows:
+		/// 
+		/// If a search returns results from multiple databases, the results will be shown in a separate window. 
+		/// Selecting an entry will
+		/// - Activate the selected entry's database
+		/// - Show all found entries in the entry list, that are contained in this database
+		/// 
+		/// If '{1}' returns only entries from exactly one database, this database will be activated and the search results will be shown as usual.
+		/// </summary>
 		public static readonly string Description = @"Please select the search functions that {0} shall enhance.
 	
 {0} will perform the search in all open databases and will enrich the result shown with the database a found entry is contained in.
@@ -46,24 +61,65 @@ Selecting an entry will
 - Show all found entries in the entry list, that are contained in this database
 
 If '{1}' returns only entries from exactly one database, this database will be activated and the search results will be shown as usual.";
+		/// <summary>
+		/// Enhance searches
+		/// </summary>
 		public static readonly string OptionsCaption = @"Enhance searches";
+		/// <summary>
+		/// Search in all open databases
+		/// </summary>
 		public static readonly string Search = @"Search in all open databases";
+		/// <summary>
+		/// Show info if '{0}' returns entries from multiple databases
+		/// </summary>
 		public static readonly string MultiDBSearchInfoSearchFormActive = @"Show info if '{0}' returns entries from multiple databases";
+		/// <summary>
+		/// The result of this search contain entries from multiple databases and will be displayed in a separate window.
+		/// After selecting an entry, the entry list will show only found entries contained in the selected entry's database.
+		/// 
+		/// To disable this message, choose '{0}' or visit the plugin's options
+		/// </summary>
 		public static readonly string MultiDBSearchInfoSearchForm = @"The result of this search contain entries from multiple databases and will be displayed in a separate window.
 After selecting an entry, the entry list will show only found entries contained in the selected entry's database.
 
 To disable this message, choose '{0}' or visit the plugin's options";
+		/// <summary>
+		/// Show info if other searches return entries from multiple databases
+		/// </summary>
 		public static readonly string MultiDBSearchInfoSingleSearchActive = @"Show info if other searches return entries from multiple databases";
+		/// <summary>
+		/// You selected an entry from a multi-db search result.
+		/// The entry list will show only found entries contained in the selected entry's database.
+		/// 
+		/// To disable this message, choose '{0}' or visit the plugin's options
+		/// </summary>
 		public static readonly string MultiDBSearchInfoSingleSearch = @"You selected an entry from a multi-db search result.
 The entry list will show only found entries contained in the selected entry's database.
 
 To disable this message, choose '{0}' or visit the plugin's options";
+		/// <summary>
+		/// Activation of {0} not possible.
+		/// 
+		/// Could not find required objects
+		/// </summary>
 		public static readonly string ErrorNoActivation = @"Activation of {0} not possible.
 
 Could not find required objects";
+		/// <summary>
+		/// Password display
+		/// </summary>
 		public static readonly string PWDisplayMode = @"Password display";
+		/// <summary>
+		/// Always
+		/// </summary>
 		public static readonly string PWDisplayModeAlways = @"Always";
+		/// <summary>
+		/// Never
+		/// </summary>
 		public static readonly string PWDisplayModeNever = @"Never";
+		/// <summary>
+		/// Like Entry List
+		/// </summary>
 		public static readonly string PWDisplayModeEntryView = @"Like Entry List";
 		#endregion
 
