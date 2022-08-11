@@ -367,10 +367,10 @@ namespace GlobalSearch
 			m_aStandardLvInit = InitListViewMain;
 			List<object> l = GetFoundEntriesList(g, dEntryIconIndex);
 
-			ListViewForm dlg = new ListViewForm();
 			int iCount = l.FindAll(x => (x as ListViewItem) != null).Count;
 			string sSubTitle = iCount == 1 ? KPRes.SearchEntriesFound1 : KPRes.SearchEntriesFound;
 			sSubTitle = sSubTitle.Replace("{PARAM}", iCount.ToString());
+			ResizableListViewForm dlg = new ResizableListViewForm(KPRes.Search, sSubTitle);
 			dlg.InitEx(KPRes.Search, sSubTitle, null, null, l, il, InitListView);
 			ShowMultiDBInfo(true);
 			PluginDebug.AddInfo("Multi-DB results: Show", 0);
@@ -724,6 +724,10 @@ namespace GlobalSearch
 				lv.Columns[i].Width = (i == lv.Columns.Count - 1) ? wf - di : wf;
 			}
 			lv.Columns.Insert(0, KPRes.Database, wf + di);
+			if (ResizableListViewForm.ColumnsWidth.Count == lv.Columns.Count)
+			{
+				for (int i = 0; i < lv.Columns.Count; i++) lv.Columns[i].Width = ResizableListViewForm.ColumnsWidth[i];
+			}
 			UIUtil.SetDisplayIndices(lv, iDisplayIndices);
 		}
 
@@ -903,4 +907,81 @@ namespace GlobalSearch
 			get { return m_img; }
 		}
 	}
+
+	internal class ResizableListViewForm : ListViewForm
+    {
+		internal static readonly Size NoSize = new Size(-9999, -9999);
+		internal static readonly Point NoLocation = new Point(-9999, -9999);
+		private string m_sTitle;
+		private string m_sSubtitle;
+
+		public static List<int> ColumnsWidth = new List<int>();
+		internal ResizableListViewForm(string sTitle, string sSubtitle) : base()
+        {
+			PluginDebug.AddInfo("GlobalSearch - Make resizable", 0, "Active: " + Config.AllowResize.ToString());
+			if (!Config.AllowResize) return;
+            m_sTitle = sTitle;
+			m_sSubtitle = sSubtitle;
+			FormBorderStyle = FormBorderStyle.Sizable;
+            FormClosed += ResizableListViewForm_FormClosed;
+            Activated += ResizableListViewForm_Activated;
+			Resize += ResizableListViewForm_Resize;
+		}
+
+        private void ResizableListViewForm_Activated(object sender, EventArgs e)
+		{
+			Activated -= ResizableListViewForm_Activated;
+			var sSize = Config.SearchResultSize;
+			var pLocation = Config.SearchResultLocation;
+			if (sSize.Width == NoSize.Width || sSize.Height == NoSize.Height) return;
+			if (pLocation.X == NoLocation.X || pLocation.Y == NoLocation.Y) return;
+
+			Rectangle rectRestWindow = new Rectangle(pLocation, sSize);
+			bool bWndPartVisible = UIUtil.IsScreenAreaVisible(rectRestWindow);
+			if (!bWndPartVisible)
+            {
+				PluginDebug.AddInfo("GlobalSearch - Make resizable", 0, 
+					"Restore size and position", 
+					"Restored window would not be visible", 
+					"Size:" + sSize.ToString(), 
+					"Location: " + pLocation.ToString());
+			}
+			PluginDebug.AddInfo("GlobalSearch - Make resizable", 0, 
+				"Restore size and position",
+				"Size:" + sSize.ToString(),
+				"Location: " + pLocation.ToString());
+
+			Location = pLocation;
+			Size = sSize;
+		}
+
+		private void ResizableListViewForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Config.SearchResultSize = Size;
+			Config.SearchResultLocation = Location;
+			ColumnsWidth.Clear();
+			ListView lvMain = Tools.GetControl("m_lvMain", this) as ListView;
+			if (lvMain == null)
+			{
+				PluginDebug.AddError("GlobalSearch - Make resizable", 0, "Saved size & position", "Saved 0 column widths", "Could not get m_lvMain");
+				return;
+			}
+			foreach (ColumnHeader c in lvMain.Columns)
+			{
+				ColumnsWidth.Add(c.Width);
+			}
+			PluginDebug.AddInfo("GlobalSearch - Make resizable", 0, "Saved size & position", "Saved " + lvMain.Columns.Count.ToString() + " column widths");
+		}
+
+        private void ResizableListViewForm_Resize(object sender, EventArgs e)
+        {
+			foreach (Control c in Controls)
+			{
+				int iDummy = 1;
+				c.Width = ClientSize.Width - c.Left * 2;
+				if (c is PictureBox) BannerFactory.UpdateBanner(this, c as PictureBox, null, m_sTitle, m_sSubtitle, ref iDummy);
+				if (c is ListView) c.Height = ClientSize.Height - c.Top - c.Margin.Top - c.Parent.Margin.Top - c.Margin.Bottom - c.Parent.Margin.Bottom;
+			}
+		}
+    }
 }
