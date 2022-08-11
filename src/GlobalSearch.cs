@@ -639,7 +639,7 @@ namespace GlobalSearch
 					if (bCleanUpDone && !CalledFromSearchForm) ShowMultiDBInfo(CalledFromSearchForm);
 					if (pg != null)
 					{
-						pe = pg.Entries.GetAt(0);
+						if (pe == null) pe = pg.Entries.GetAt(0);
 						foreach (KeyValuePair<PwDatabase, PwGroup> kvp in m_dDBGroups)
 						{
 							if (kvp.Value.FindEntry(pe.Uuid, true) != null)
