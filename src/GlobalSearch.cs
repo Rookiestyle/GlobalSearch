@@ -593,7 +593,7 @@ namespace GlobalSearch
 			}
 
 			//Show results
-			ListViewForm dlg = new ListViewForm();
+			var dlg = new ResizableListViewForm(fi.Title, fi.SubTitle);
 			//Prepare ImageList (CustomIcons can be different per database)
 			dlg.InitEx(fi.Title, fi.SubTitle, fi.Note, fi.img, l, il, InitListView);
 			UIUtil.ShowDialogAndDestroy(dlg);
