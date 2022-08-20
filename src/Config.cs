@@ -1,5 +1,6 @@
 ﻿using KeePass.App.Configuration;
 using System;
+using System.Drawing;
 
 namespace GlobalSearch
 {
@@ -7,8 +8,11 @@ namespace GlobalSearch
 	{
 		private static AceCustomConfig CustomConfig = KeePass.Program.Config.CustomConfig;
 		private const string ConfigActive = "GlobalSearch.HookSearchForm";
-		private const string ConfigPWDisplay = "GlobalSearch.PWDisplay"; 
-		
+		private const string ConfigPWDisplay = "GlobalSearch.PWDisplay";
+		private const string ConfigAllowResize = "GlobalSearch.AllowResize";
+		private const string ConfigSearchResultSize = "GlobalSearch.SearchResultSize";
+		private const string ConfigSearchResultLocation = "GlobalSearch.SearchResultLocation";
+
 		public static bool SearchForm
 		{
 			get { return CustomConfig.GetBool(ConfigActive, true); }
@@ -119,6 +123,57 @@ namespace GlobalSearch
 			}
 			set { CustomConfig.SetString(ConfigPWDisplay, value.ToString()); }
 		}
+
+		public static bool AllowResize 
+		{
+			get { return CustomConfig.GetBool(ConfigAllowResize, true); }
+			set { CustomConfig.SetBool(ConfigAllowResize, value); }
+		}
+
+		public static Size SearchResultSize
+		{
+			get
+			{
+				string sSizeString = CustomConfig.GetString(ConfigSearchResultSize, "-9999/-9999");
+				try
+				{
+					Size s = ResizableListViewForm.NoSize;
+					string[] aSizeString = sSizeString.Split(new char[] { '/' });
+					int i;
+					if (!int.TryParse(aSizeString[0], out i)) i = -9999;
+					s.Width = i;
+					if (!int.TryParse(aSizeString[1], out i)) i = -9999;
+					s.Height = i;
+					return s;
+				}
+				catch { return ResizableListViewForm.NoSize; }
+			}
+			set { 
+				CustomConfig.SetString(ConfigSearchResultSize, value.Width.ToString() + "/" + value.Height.ToString()); }
+		}
+
+		public static Point SearchResultLocation
+		{
+			get
+			{
+				string sPointString = CustomConfig.GetString(ConfigSearchResultLocation, "-9999/-9999");
+				try
+				{
+					Point p = ResizableListViewForm.NoLocation;
+					string[] aSizeString = sPointString.Split(new char[] { '/' });
+					int i;
+					if (!int.TryParse(aSizeString[0], out i)) i = -9999;
+					p.X = i;
+					if (!int.TryParse(aSizeString[1], out i)) i = -9999;
+					p.Y = i;
+					return p;
+				}
+				catch { return ResizableListViewForm.NoLocation; }
+			}
+			set { 
+				CustomConfig.SetString(ConfigSearchResultLocation, value.X.ToString() + "/" + value.Y.ToString()); }
+		}
+
 		public static bool HookActive(string menuName)
 		{
 			switch (menuName)
