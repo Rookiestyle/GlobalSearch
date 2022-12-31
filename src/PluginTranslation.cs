@@ -121,6 +121,10 @@ Could not find required objects";
 		/// Like Entry List
 		/// </summary>
 		public static readonly string PWDisplayModeEntryView = @"Like Entry List";
+		/// <summary>
+		///  Column widths like entry list
+		/// </summary>
+		public static readonly string UseEntryListColumnWidths = @"Column widths like Entry List";
 		#endregion
 
 		#region NO changes in this area

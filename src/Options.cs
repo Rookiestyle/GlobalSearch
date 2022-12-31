@@ -32,7 +32,9 @@ namespace GlobalSearch
 			tpOptions.Text = PluginTranslate.OptionsCaption;
 			tpHelp.Text = KeePass.Resources.KPRes.Description;
 			AdjustCheckBox(cbSearchForm, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchForm));
-			AdjustCheckBox(cbSearchLastMod, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchLastMod));
+			cbUseEntryListColumnWidths.Text = PluginTranslate.UseEntryListColumnWidths;
+
+            AdjustCheckBox(cbSearchLastMod, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchLastMod));
 			AdjustCheckBox(cbSearchLarge, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchLargeEntries));
 			AdjustCheckBox(cbSearchDupPw, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchDupPw));
 			AdjustCheckBox(cbSearchPwPairs, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordPairs));

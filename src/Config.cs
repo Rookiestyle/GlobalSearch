@@ -12,6 +12,7 @@ namespace GlobalSearch
 		private const string ConfigAllowResize = "GlobalSearch.AllowResize";
 		private const string ConfigSearchResultSize = "GlobalSearch.SearchResultSize";
 		private const string ConfigSearchResultLocation = "GlobalSearch.SearchResultLocation";
+		private const string ConfigUseEntryListColumnWidths = "GlobalSearch.UseEntryListColumnWidths";
 
 		public static bool SearchForm
 		{
@@ -173,6 +174,12 @@ namespace GlobalSearch
 			set { 
 				CustomConfig.SetString(ConfigSearchResultLocation, value.X.ToString() + "/" + value.Y.ToString()); }
 		}
+
+		public static bool UseEntryListColumnWidths
+        {
+			get { return CustomConfig.GetBool(ConfigUseEntryListColumnWidths, true); }
+			set { CustomConfig.SetBool(ConfigUseEntryListColumnWidths, value); }
+        }
 
 		public static bool HookActive(string menuName)
 		{

@@ -480,6 +480,7 @@ namespace GlobalSearch
 			lColumns.Add(c);
 		}
 
+		private bool m_bUsedEntryViewColumnWidths = false;
 		private void InitListViewMain(ListView lv)
 		{
 			int w = lv.ClientSize.Width - UIUtil.GetVScrollBarWidth();
@@ -496,10 +497,12 @@ namespace GlobalSearch
 				if (i == 0) cw = wf + di;
 				if (i == m_lEntryListColumns.Count - 1) cw = wf - di;
 
-				lv.Columns.Add(m_lEntryListColumns[i].GetDisplayName(), cw);
+				lv.Columns.Add(m_lEntryListColumns[i].GetDisplayName(), Config.UseEntryListColumnWidths ? m_lEntryListColumns[i].Width : cw);
 			}
 			UIUtil.SetDisplayIndices(lv, lIndices.ToArray());
 			m_lEntryListColumns = null;
+
+			m_bUsedEntryViewColumnWidths = Config.UseEntryListColumnWidths;
 		}
 		#endregion
 
@@ -713,21 +716,29 @@ namespace GlobalSearch
 			if (m_aStandardLvInit == null) return;
 			m_aStandardLvInit(lv);
 			m_aStandardLvInit = null;
+
 			int[] iDisplayIndices = new int[lv.Columns.Count + 1];
 			int w = lv.ClientSize.Width - UIUtil.GetVScrollBarWidth();
 			int wf = w / iDisplayIndices.Length;
 			iDisplayIndices[0] = 0;
 			int di = Math.Min(UIUtil.GetSmallIconSize().Width, wf);
+			var iOldLVWidth = lv.ClientSize.Width;
+			var iNewLVWidth = 0;
 			for (int i = 0; i < lv.Columns.Count; i++)
 			{
 				iDisplayIndices[i + 1] = lv.Columns[i].DisplayIndex + 1;
-				lv.Columns[i].Width = (i == lv.Columns.Count - 1) ? wf - di : wf;
+				if (!m_bUsedEntryViewColumnWidths) lv.Columns[i].Width = (i == lv.Columns.Count - 1) ? wf - di : wf;
+				iNewLVWidth += lv.Columns[i].Width;
 			}
 			lv.Columns.Insert(0, KPRes.Database, wf + di);
-			if (ResizableListViewForm.ColumnsWidth.Count == lv.Columns.Count)
+
+			this damn thing interferes...
+			if (ResizableListViewForm.ColumnsWidth.Count == lv.Columns.Count && !m_bUsedEntryViewColumnWidths)
 			{
 				for (int i = 0; i < lv.Columns.Count; i++) lv.Columns[i].Width = ResizableListViewForm.ColumnsWidth[i];
 			}
+			m_bUsedEntryViewColumnWidths = false;
+
 			UIUtil.SetDisplayIndices(lv, iDisplayIndices);
 		}
 
@@ -802,6 +813,7 @@ namespace GlobalSearch
 			o.cbSearchAllExpired.Checked = o.cbSearchAllExpired.Enabled && Config.HookAllExpired;
 			o.cbMultiDBSearchInfoSearchFormActive.Checked = Config.ShowMultiDBInfoSearchForm;
 			o.cbMultiDBSearchInfoSingleSearchActive.Checked = Config.ShowMultiDBInfoSingleSearch;
+			o.cbUseEntryListColumnWidths.Checked = Config.UseEntryListColumnWidths;
 			o.SetPwDisplayMode(Config.PasswordDisplay); 
 			Tools.AddPluginToOptionsForm(this, o);
 		}
@@ -822,6 +834,7 @@ namespace GlobalSearch
 			if (o.cbSearchAllExpired.Enabled) Config.HookAllExpired = o.cbSearchAllExpired.Checked;
 			Config.ShowMultiDBInfoSearchForm = o.cbMultiDBSearchInfoSearchFormActive.Checked;
 			Config.ShowMultiDBInfoSingleSearch = o.cbMultiDBSearchInfoSingleSearchActive.Checked;
+			Config.UseEntryListColumnWidths = o.cbUseEntryListColumnWidths.Checked;
 			Config.PasswordDisplay = o.GetPwDisplayMode();
 			Activate();
 		}
