@@ -371,7 +371,9 @@ namespace GlobalSearch
 			string sSubTitle = iCount == 1 ? KPRes.SearchEntriesFound1 : KPRes.SearchEntriesFound;
 			sSubTitle = sSubTitle.Replace("{PARAM}", iCount.ToString());
 			ResizableListViewForm dlg = new ResizableListViewForm(KPRes.Search, sSubTitle);
+			dlg.RememberColumnWidths = !Config.UseEntryListColumnWidths;
 			dlg.InitEx(KPRes.Search, sSubTitle, null, null, l, il, InitListView);
+			m_bUsedEntryViewColumnWidths = false;
 			ShowMultiDBInfo(true);
 			PluginDebug.AddInfo("Multi-DB results: Show", 0);
 			if (dlg.ShowDialog(m_host.MainWindow) != DialogResult.OK)
@@ -722,17 +724,13 @@ namespace GlobalSearch
 			int wf = w / iDisplayIndices.Length;
 			iDisplayIndices[0] = 0;
 			int di = Math.Min(UIUtil.GetSmallIconSize().Width, wf);
-			var iOldLVWidth = lv.ClientSize.Width;
-			var iNewLVWidth = 0;
 			for (int i = 0; i < lv.Columns.Count; i++)
 			{
 				iDisplayIndices[i + 1] = lv.Columns[i].DisplayIndex + 1;
 				if (!m_bUsedEntryViewColumnWidths) lv.Columns[i].Width = (i == lv.Columns.Count - 1) ? wf - di : wf;
-				iNewLVWidth += lv.Columns[i].Width;
 			}
 			lv.Columns.Insert(0, KPRes.Database, wf + di);
 
-			this damn thing interferes...
 			if (ResizableListViewForm.ColumnsWidth.Count == lv.Columns.Count && !m_bUsedEntryViewColumnWidths)
 			{
 				for (int i = 0; i < lv.Columns.Count; i++) lv.Columns[i].Width = ResizableListViewForm.ColumnsWidth[i];
@@ -803,18 +801,7 @@ namespace GlobalSearch
 		private void Tools_OptionsFormShown(object sender, Tools.OptionsFormsEventArgs e)
 		{
 			Options o = new Options();
-			o.cbSearchForm.Checked = Config.SearchForm;
-			o.cbSearchDupPw.Checked = o.cbSearchDupPw.Enabled && Config.HookSearchDupPw;
-			o.cbSearchPwPairs.Checked = o.cbSearchPwPairs.Enabled && Config.HookSearchPwPairs;
-			o.cbSearchPwCluster.Checked = o.cbSearchPwCluster.Enabled && Config.HookSearchPwCluster;
-			o.cbSearchPwQuality.Checked = o.cbSearchPwQuality.Enabled && Config.HookPwQuality;
-			o.cbSearchLarge.Checked = o.cbSearchLarge.Enabled && Config.HookLargeEntries;
-			o.cbSearchLastMod.Checked = o.cbSearchLastMod.Enabled && Config.HookLastMod;
-			o.cbSearchAllExpired.Checked = o.cbSearchAllExpired.Enabled && Config.HookAllExpired;
-			o.cbMultiDBSearchInfoSearchFormActive.Checked = Config.ShowMultiDBInfoSearchForm;
-			o.cbMultiDBSearchInfoSingleSearchActive.Checked = Config.ShowMultiDBInfoSingleSearch;
-			o.cbUseEntryListColumnWidths.Checked = Config.UseEntryListColumnWidths;
-			o.SetPwDisplayMode(Config.PasswordDisplay); 
+			o.InitEx();
 			Tools.AddPluginToOptionsForm(this, o);
 		}
 
@@ -824,18 +811,7 @@ namespace GlobalSearch
 			bool bShown = false;
 			Options o = (Options)Tools.GetPluginFromOptions(this, out bShown);
 			if (!bShown) return;
-			Config.SearchForm = o.cbSearchForm.Checked;
-			if (o.cbSearchDupPw.Enabled) Config.HookSearchDupPw = o.cbSearchDupPw.Checked;
-			if (o.cbSearchPwPairs.Enabled) Config.HookSearchPwPairs = o.cbSearchPwPairs.Checked;
-			if (o.cbSearchPwCluster.Enabled) Config.HookSearchPwCluster = o.cbSearchPwCluster.Checked;
-			if (o.cbSearchPwQuality.Enabled) Config.HookPwQuality = o.cbSearchPwQuality.Checked;
-			if (o.cbSearchLarge.Enabled) Config.HookLargeEntries = o.cbSearchLarge.Checked;
-			if (o.cbSearchLastMod.Enabled) Config.HookLastMod = o.cbSearchLastMod.Checked;
-			if (o.cbSearchAllExpired.Enabled) Config.HookAllExpired = o.cbSearchAllExpired.Checked;
-			Config.ShowMultiDBInfoSearchForm = o.cbMultiDBSearchInfoSearchFormActive.Checked;
-			Config.ShowMultiDBInfoSingleSearch = o.cbMultiDBSearchInfoSingleSearchActive.Checked;
-			Config.UseEntryListColumnWidths = o.cbUseEntryListColumnWidths.Checked;
-			Config.PasswordDisplay = o.GetPwDisplayMode();
+			o.UpdateConfig();
 			Activate();
 		}
 		#endregion
@@ -968,22 +944,28 @@ namespace GlobalSearch
 			Size = sSize;
 		}
 
+		public bool RememberColumnWidths = true;
+
 		private void ResizableListViewForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			Config.SearchResultSize = Size;
 			Config.SearchResultLocation = Location;
-			ColumnsWidth.Clear();
+			if (RememberColumnWidths) ColumnsWidth.Clear();
 			ListView lvMain = Tools.GetControl("m_lvMain", this) as ListView;
 			if (lvMain == null)
 			{
 				PluginDebug.AddError("GlobalSearch - Make resizable", 0, "Saved size & position", "Saved 0 column widths", "Could not get m_lvMain");
 				return;
 			}
-			foreach (ColumnHeader c in lvMain.Columns)
+			if (RememberColumnWidths)
 			{
-				ColumnsWidth.Add(c.Width);
+				foreach (ColumnHeader c in lvMain.Columns)
+				{
+					ColumnsWidth.Add(c.Width);
+				}
+				PluginDebug.AddInfo("GlobalSearch - Make resizable", 0, "Saved size & position", "Saved 0 column widths");
 			}
-			PluginDebug.AddInfo("GlobalSearch - Make resizable", 0, "Saved size & position", "Saved " + lvMain.Columns.Count.ToString() + " column widths");
+			else PluginDebug.AddInfo("GlobalSearch - Make resizable", 0, "Saved size & position", "Saved " + lvMain.Columns.Count.ToString() + " column widths");
 		}
 
 		private void ResizableListViewForm_Resize(object sender, EventArgs e)

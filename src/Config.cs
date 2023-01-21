@@ -176,10 +176,10 @@ namespace GlobalSearch
 		}
 
 		public static bool UseEntryListColumnWidths
-        {
+		{
 			get { return CustomConfig.GetBool(ConfigUseEntryListColumnWidths, true); }
 			set { CustomConfig.SetBool(ConfigUseEntryListColumnWidths, value); }
-        }
+		}
 
 		public static bool HookActive(string menuName)
 		{

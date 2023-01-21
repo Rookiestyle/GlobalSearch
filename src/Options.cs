@@ -19,6 +19,16 @@ namespace GlobalSearch
 	/// 
 	public partial class Options : UserControl
 	{
+		private TreeNode tvnSearchForm { get { return tvHookedSearches.Nodes.Find("tvnSearchForm", true)[0]; } }
+		private TreeNode tvnUseEntryListColummnWidth { get { return tvHookedSearches.Nodes.Find("tvnUseEntryListColummnWidth", true)[0]; } }
+		private TreeNode tvnLastMod { get { return tvHookedSearches.Nodes.Find("tvnLastMod", true)[0]; } }
+		private TreeNode tvnLargeEntries { get { return tvHookedSearches.Nodes.Find("tvnLargeEntries", true)[0]; } }
+		private TreeNode tvnDupPw { get { return tvHookedSearches.Nodes.Find("tvnDupPw", true)[0]; } }
+		private TreeNode tvnSimPwPairs { get { return tvHookedSearches.Nodes.Find("tvnSimPwPairs", true)[0]; } }
+		private TreeNode tvnSimPwCluster { get { return tvHookedSearches.Nodes.Find("tvnSimPwCluster", true)[0]; } }
+		private TreeNode tvnPwQuality { get { return tvHookedSearches.Nodes.Find("tvnPwQuality", true)[0]; } }
+		private TreeNode tvnExpired { get { return tvHookedSearches.Nodes.Find("tvnExpired", true)[0]; } }
+
 		public Options()
 		{
 			//
@@ -31,24 +41,22 @@ namespace GlobalSearch
 			Text = PluginTranslate.PluginName;
 			tpOptions.Text = PluginTranslate.OptionsCaption;
 			tpHelp.Text = KeePass.Resources.KPRes.Description;
-			AdjustCheckBox(cbSearchForm, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchForm));
-			cbUseEntryListColumnWidths.Text = PluginTranslate.UseEntryListColumnWidths;
+			AdjustNode(tvnSearchForm, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchForm));
 
-            AdjustCheckBox(cbSearchLastMod, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchLastMod));
-			AdjustCheckBox(cbSearchLarge, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchLargeEntries));
-			AdjustCheckBox(cbSearchDupPw, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchDupPw));
-			AdjustCheckBox(cbSearchPwPairs, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordPairs));
-			AdjustCheckBox(cbSearchPwCluster, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordClusters));
-			AdjustCheckBox(cbSearchPwQuality, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordQuality));
-			AdjustCheckBox(cbSearchPwQuality, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordQuality));
+			tvnUseEntryListColummnWidth.Text = PluginTranslate.UseEntryListColumnWidths;
 
-			FindInfo fiExpired = SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchExpired);
-			cbSearchAllExpired.Enabled = fiExpired.StandardMethod != null;
-			cbSearchAllExpired.Text = KeePass.Resources.KPRes.ExpiredEntries;
+			AdjustNode(tvnLastMod, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchLastMod));
+			AdjustNode(tvnLargeEntries, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchLargeEntries));
+			AdjustNode(tvnDupPw, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchDupPw));
+			AdjustNode(tvnSimPwPairs, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordPairs));
+			AdjustNode(tvnSimPwCluster, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordClusters));
+			AdjustNode(tvnPwQuality, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchPasswordQuality));
+			AdjustNode(tvnExpired, SearchHelp.FindList.Find(x => x.Name == SearchHelp.SearchExpired));
+			tvnExpired.Text = KeePass.Resources.KPRes.ExpiredEntries;
 
-			cbMultiDBSearchInfoSearchFormActive.Text = string.Format(PluginTranslate.MultiDBSearchInfoSearchFormActive, cbSearchForm.Text);
+			cbMultiDBSearchInfoSearchFormActive.Text = string.Format(PluginTranslate.MultiDBSearchInfoSearchFormActive, tvnSearchForm.Text);
 			cbMultiDBSearchInfoSingleSearchActive.Text = PluginTranslate.MultiDBSearchInfoSingleSearchActive;
-			string sDesc = string.Format(PluginTranslate.Description, PluginTranslate.PluginName, cbSearchForm.Text);
+			string sDesc = string.Format(PluginTranslate.Description, PluginTranslate.PluginName, tvnSearchForm.Text);
 			tbDesc.Lines = sDesc.Split(new string[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
 
 			gSearches.Text = KeePass.Resources.KPRes.SearchingOp;
@@ -58,24 +66,73 @@ namespace GlobalSearch
 			rbPWDisplayEntryList.Text = PluginTranslate.PWDisplayModeEntryView;
 		}
 
-		private void AdjustCheckBox(CheckBox cbBox, FindInfo fiInfo)
+		private void SetDisabled(TreeNode t)
 		{
-			cbBox.Text = fiInfo.OptionsText.Replace("&", string.Empty);
-			cbBox.Enabled = fiInfo.StandardMethod != null || (fiInfo.Name == SearchHelp.SearchForm);
+			t.NodeFont = new Font(t.NodeFont == null ? t.TreeView.Font : t.NodeFont, FontStyle.Strikeout);
 		}
 
-		public void SetPwDisplayMode(Config.PasswordDisplayMode m)
+		private bool IsEnabled(TreeNode t)
+		{
+			return t.NodeFont == null || !t.NodeFont.Strikeout;
+		}
+
+		public void InitEx()
+		{
+			tvnSearchForm.Checked = Config.SearchForm;
+			tvnUseEntryListColummnWidth.Checked = Config.UseEntryListColumnWidths;
+			tvnDupPw.Checked = IsEnabled(tvnDupPw) && Config.HookSearchDupPw;
+			tvnSimPwPairs.Checked = IsEnabled(tvnSimPwPairs) && Config.HookSearchPwPairs;
+			tvnSimPwCluster.Checked = IsEnabled(tvnSimPwCluster) && Config.HookSearchPwCluster;
+			tvnPwQuality.Checked = IsEnabled(tvnPwQuality) && Config.HookPwQuality;
+			tvnLargeEntries.Checked = IsEnabled(tvnLargeEntries) && Config.HookLargeEntries;
+			tvnLastMod.Checked = IsEnabled(tvnLastMod) && Config.HookLastMod;
+			tvnExpired.Checked = IsEnabled(tvnExpired) && Config.HookAllExpired;
+			cbMultiDBSearchInfoSearchFormActive.Checked = Config.ShowMultiDBInfoSearchForm;
+			cbMultiDBSearchInfoSingleSearchActive.Checked = Config.ShowMultiDBInfoSingleSearch;
+			SetPwDisplayMode(Config.PasswordDisplay);
+		}
+
+		public void UpdateConfig()
+		{
+			Config.SearchForm = tvnSearchForm.Checked;
+			Config.UseEntryListColumnWidths = tvnUseEntryListColummnWidth.Checked;
+			if (IsEnabled(tvnDupPw)) Config.HookSearchDupPw = tvnDupPw.Checked;
+			if (IsEnabled(tvnSimPwPairs)) Config.HookSearchPwPairs = tvnSimPwPairs.Checked;
+			if (IsEnabled(tvnSimPwCluster)) Config.HookSearchPwCluster = tvnSimPwCluster.Checked;
+			if (IsEnabled(tvnPwQuality)) Config.HookPwQuality = tvnPwQuality.Checked;
+			if (IsEnabled(tvnLargeEntries)) Config.HookLargeEntries = tvnLargeEntries.Checked;
+			if (IsEnabled(tvnLastMod)) Config.HookLastMod = tvnLastMod.Checked;
+			if (IsEnabled(tvnExpired)) Config.HookAllExpired = tvnExpired.Checked;
+			Config.ShowMultiDBInfoSearchForm = cbMultiDBSearchInfoSearchFormActive.Checked;
+			Config.ShowMultiDBInfoSingleSearch = cbMultiDBSearchInfoSingleSearchActive.Checked;
+			Config.PasswordDisplay = GetPwDisplayMode();
+		}
+
+		private void AdjustNode(TreeNode t, FindInfo fiInfo)
+		{
+			t.Text = fiInfo.OptionsText.Replace("&", string.Empty);
+			if (fiInfo.StandardMethod != null || (fiInfo.Name == SearchHelp.SearchForm)) return;
+			SetDisabled(t);
+		}
+
+		private void SetPwDisplayMode(Config.PasswordDisplayMode m)
 		{
 			rbPWDisplayAlways.Checked = true;
 			if (m == Config.PasswordDisplayMode.Never) rbPWDisplayNever.Checked = true;
 			if (m == Config.PasswordDisplayMode.EntryviewBased) rbPWDisplayEntryList.Checked = true;
 		}
 
-		public Config.PasswordDisplayMode GetPwDisplayMode()
+		private Config.PasswordDisplayMode GetPwDisplayMode()
 		{
 			if (rbPWDisplayNever.Checked) return Config.PasswordDisplayMode.Never;
 			if (rbPWDisplayEntryList.Checked) return Config.PasswordDisplayMode.EntryviewBased;
 			return Config.PasswordDisplayMode.Always;
+		}
+
+		private void tvHookedSearches_BeforeChecked(object sender, TreeViewCancelEventArgs e)
+		{
+			if (IsEnabled(e.Node)) return;
+			e.Cancel = true;
 		}
 	}
 }

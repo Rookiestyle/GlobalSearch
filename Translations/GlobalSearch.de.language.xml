@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Translation>
-  <TranslationVersion>3</TranslationVersion>
+  <!-- 
+    Increment the TranslationVersion every time the translation file is updated
+	Also update the version.info file
+  -->
+  <TranslationVersion>4</TranslationVersion>
   <item>
     <key>Description</key>
     <value>Bitte wähle aus, welche Suchfunktionen {0} erweitern soll.
@@ -18,14 +22,14 @@ Bei Auswahl eines Eintrags
 Wenn '{1}' nur Einträge aus genau einer Datenbank findet, dann wird diese Datenbank aktiviert und die Ergebnisse werden wie gewohnt angezeigt.</value>
   </item>
   <item>
-	<key>OptionsCaption</key>
-	<value>Suchfunktionen erweitern</value>
+    <key>OptionsCaption</key>
+    <value>Suchfunktionen erweitern</value>
   </item>
   <item>
     <key>Search</key>
     <value>Suche in allen geöffneten Datenbanken</value>
   </item>
-    <item>
+  <item>
     <key>MultiDBSearchInfoSearchFormActive</key>
     <value>Info, wenn '{0}' Einträge mehrerer Datenbanken enthält</value>
   </item>
@@ -49,11 +53,11 @@ Um diese Meldung zu deaktivieren, wähle {0} oder besuche die Pluginoptionen.</v
   </item>
   <item>
     <key>ErrorNoActivation</key>
-	<value>{0} kann nicht aktiviert werden.
+    <value>{0} kann nicht aktiviert werden.
 
 Nicht alle erforderlichen Objekte gefunden.</value>
   </item>
-    <item>
+  <item>
     <key>PWDisplayMode</key>
     <value>Passwortanzeige</value>
   </item>
@@ -68,5 +72,9 @@ Nicht alle erforderlichen Objekte gefunden.</value>
   <item>
     <key>PWDisplayModeEntryView</key>
     <value>Wie Eintragsliste</value>
+  </item>
+  <item>
+    <key>UseEntryListColumnWidths</key>
+    <value>Spaltenbreite wie Eintragsliste</value>
   </item>
 </Translation>

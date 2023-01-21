@@ -73,4 +73,8 @@ Could not find required objects</value>
     <key>PWDisplayModeEntryView</key>
     <value>Like Entry List</value>
   </item>
+  <item>
+    <key>UseEntryListColumnWidths</key>
+    <value>Column widths like Entry List</value>
+  </item>
 </Translation>
