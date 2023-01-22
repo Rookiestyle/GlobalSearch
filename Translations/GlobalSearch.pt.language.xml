@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Translation>
-  <TranslationVersion>2</TranslationVersion>
+  <TranslationVersion>3</TranslationVersion>
   <item>
     <key>Description</key>
     <value>Selecione as funções de pesquisa que {0} deve aprimorar.
@@ -69,4 +69,8 @@ Não foi possível encontrar os objetos necessários</value>
     <key>PWDisplayModeEntryView</key>
     <value>Como a Lista de Entrada</value>
   </item>
-</Translation>	  
+  <item>
+    <key>UseEntryListColumnWidths</key>
+    <value>Largura ds Colunas como da Lista de Entrada</value>
+  </item>
+</Translation>
