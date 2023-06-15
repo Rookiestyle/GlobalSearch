@@ -117,6 +117,7 @@ namespace GlobalSearch
 
 		private void SetPwDisplayMode(Config.PasswordDisplayMode m)
 		{
+			gPWDisplay.Visible = gPWDisplay.Enabled = Tools.KeePassVersion < Util.KeePassVersion_2_54;
 			rbPWDisplayAlways.Checked = true;
 			if (m == Config.PasswordDisplayMode.Never) rbPWDisplayNever.Checked = true;
 			if (m == Config.PasswordDisplayMode.EntryviewBased) rbPWDisplayEntryList.Checked = true;

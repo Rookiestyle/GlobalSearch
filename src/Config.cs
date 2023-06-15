@@ -4,6 +4,10 @@ using System.Drawing;
 
 namespace GlobalSearch
 {
+	public static class Util
+    {
+		public static readonly Version KeePassVersion_2_54 = new Version(2, 54);
+    }
 	public static class Config
 	{
 		private static AceCustomConfig CustomConfig = KeePass.Program.Config.CustomConfig;
