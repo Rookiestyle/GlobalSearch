@@ -117,6 +117,7 @@ namespace GlobalSearch
 
 		private void OnShowListviewForm(object sender, EventArgs e)
 		{
+			if (Tools.KeePassVersion == Util.KeePassVersion_2_54) return;
 			if (Config.PasswordDisplay == Config.PasswordDisplayMode.Always) return;
 
 			if (Config.PasswordDisplay == Config.PasswordDisplayMode.EntryviewBased)
@@ -565,9 +566,9 @@ namespace GlobalSearch
 			foreach (Image img in il2.Images)
 				il.Images.Add(img);
 
-			foreach (var o in l)
+			for (int i = 0; i < l.Count; i++)
 			{
-				ListViewItem lvi = o as ListViewItem;
+				ListViewItem lvi = GetObjectAsListViewItem(l[i]);
 				if (lvi == null) continue;
 				ListViewItem.ListViewSubItem lvsi = new ListViewItem.ListViewSubItem();
 				if (lvi.Tag is PwEntry)
@@ -587,7 +588,7 @@ namespace GlobalSearch
 					PwGroup pg = lvi.Tag as PwGroup;
 					lvsi.Text = SearchHelp.GetDBName(pg.Entries.GetAt(0));
 				}
-				lvi.SubItems.Insert(0, lvsi);
+				l[i] = AddSubItemToListViewObject(l[i], lvi, lvsi);
 			}
 
 			if ((l.Count == 0) && !string.IsNullOrEmpty(fi.NothingFound))
@@ -605,6 +606,33 @@ namespace GlobalSearch
 			if (dlg.DialogResult != DialogResult.OK) return;
 			il.Dispose();
 			NavigateToSelectedEntry(dlg, false);
+		}
+
+		private object AddSubItemToListViewObject(object o, ListViewItem lvi, ListViewItem.ListViewSubItem lvsi)
+        {
+			if (o is ListViewItem)
+            {
+				(o as ListViewItem).SubItems.Insert(0, lvsi);
+				return o;
+            }
+			if (Tools.KeePassVersion < Util.KeePassVersion_2_54) return o;
+			//Could be KeePass 2.54 or higher and type LvfItem
+			lvi.SubItems.Insert(0, lvsi);
+			var c = o.GetType().GetConstructor(new Type[] { typeof(ListViewItem) });
+			if (c != null) o = c.Invoke(new object[] { lvi });
+			return o;
+		}
+
+		private ListViewItem GetObjectAsListViewItem(object o)
+        {
+			ListViewItem lvi = o as ListViewItem;
+			if (lvi != null) return lvi;
+			if (Tools.KeePassVersion >= Util.KeePassVersion_2_54)
+			{
+				//Could be KeePass 2.54 or higher and type LvfItem
+				lvi = Tools.GetField("m_lvi", o) as ListViewItem;
+			}
+			return lvi;
 		}
 
 		private void NavigateToSelectedEntry(ListViewForm dlg, bool CalledFromSearchForm)
