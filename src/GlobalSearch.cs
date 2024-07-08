@@ -68,7 +68,33 @@ namespace GlobalSearch
       m_menu.Image = m_img;
       m_host.MainWindow.ToolsMenu.DropDownItems.Add(m_menu);
 
+      m_host.MainWindow.FormLoadPost += OnFormLoadPost;
+
       return true;
+    }
+
+    private List<Delegate> m_dKeeResize = new List<Delegate>();
+    private void OnFormLoadPost(object sender, EventArgs e)
+    {
+      var lEventHandlers = EventHelper.GetEventHandlersOfStaticClass(typeof(GlobalWindowManager), "WindowAdded");
+      if (lEventHandlers == null)
+      {
+        PluginDebug.AddError("Could not load eventhandlers of GlobalWindowManager.WindowAdded", 0);
+        return;
+      }
+      m_dKeeResize = lEventHandlers.Where(y => y.Target != null && y.Target.GetType().Name.Contains("KeeResize")).ToList();
+      if (m_dKeeResize.Count == 0)
+      {
+        PluginDebug.AddInfo("GlobalWindowManager.WindowAdded eventhandler of KeeResize NOT found", 0);
+        return;
+      }
+      else
+      {
+        PluginDebug.AddInfo("GlobalWindowManager.WindowAdded eventhandler of KeeResize found", 0);
+      };
+      EventHelper.RemoveEventHandlersOfStaticClass(typeof(GlobalWindowManager), "WindowAdded", m_dKeeResize);
+      PluginDebug.AddInfo("Removed GlobalWindowManager.WindowAdded eventhandler of KeeResize ", 0);
+
     }
 
     #region Search form
@@ -96,14 +122,21 @@ namespace GlobalSearch
           "Callstack relevant: " + bSFRelevant.ToString(),
           "Add 'Search db' checkbox: " + bAddCheckbox.ToString());
         if (!bSFRelevant) PluginDebug.AddInfo("Callstack", 0, lSF.ToArray());
-        if (!bAddCheckbox || !AddCheckBox(e.Form)) return;
-        m_sf = e.Form as SearchForm;
-        m_sf.Shown += OnSearchFormShown;
-        m_sf.Closed += OnSearchFormClosed;
+        if (bAddCheckbox && AddCheckBox(e.Form))
+        {
+          m_sf = e.Form as SearchForm;
+          m_sf.Shown += OnSearchFormShown;
+          m_sf.Closed += OnSearchFormClosed;
+        }
       }
       if (e.Form is ListViewForm)
       {
         ListViewFormAdded(e.Form as ListViewForm);
+      }
+      for (int i = 0; i < m_dKeeResize.Count; i++)
+      {
+        PluginDebug.AddInfo("Calling other GlobalWindowManager.WindowAdded eventhandler", 0, m_dKeeResize[i].Method.Name, m_dKeeResize[i].Target == null ? string.Empty : m_dKeeResize[i].Target.ToString());
+        m_dKeeResize[i].DynamicInvoke(new object[] { sender, e });
       }
     }
 
