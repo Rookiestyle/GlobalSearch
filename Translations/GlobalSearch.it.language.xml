@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Translation>
+  <TranslationVersion>1</TranslationVersion>
+  <item>
+    <key>Description</key>
+    <value>Seleziona le funzioni di ricerca che {0} deve migliorare.
+	
+{0} eseguirà la ricerca in tutti i database aperti e arricchirà il risultato mostrato con il database in cui è contenuta una voce trovata.
+
+KeePass e molti dei plugin disponibili presuppongono che tutte le voci mostrate nell’elenco siano contenute nel database attivo.
+Per non compromettere la compatibilità ed evitare incoerenze come segnalare un database sbagliato come modificato, {0} si comporterà come segue:
+
+Se una ricerca restituisce risultati da più database, i risultati verranno mostrati in una finestra separata. 
+Selezionando una voce verranno eseguite le seguenti azioni:
+- Attivazione del database della voce selezionata
+- Mostra tutte le voci trovate contenute in questo database nell’elenco delle voci
+
+Se '{1}' restituisce voci da un solo database, questo verrà attivato e i risultati della ricerca verranno mostrati come di consueto.</value>
+  </item>
+  <item>
+    <key>OptionsCaption</key>
+    <value>Migliora ricerche</value>
+  </item>
+  <item>
+    <key>Search</key>
+    <value>Ricerca in tutti i database aperti</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSearchFormActive</key>
+    <value>Mostra info se '{0}' restituisce voci da più database</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSearchForm</key>
+    <value>Il risultato di questa ricerca contiene voci da più database e verrà mostrato in una finestra separata.
+Dopo aver selezionato una voce, l’elenco mostrerà solo le voci trovate contenute nel database della voce selezionata.
+
+Per disabilitare questo messaggio, scegli '{0}' o visita le opzioni del plugin</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSingleSearchActive</key>
+    <value>Mostra info se altre ricerche restituiscono voci da più database</value>
+  </item>
+  <item>
+    <key>MultiDBSearchInfoSingleSearch</key>
+    <value>Hai selezionato una voce da un risultato di ricerca multi-db.
+L’elenco mostrerà solo le voci trovate contenute nel database della voce selezionata.
+
+Per disabilitare questo messaggio, scegli '{0}' o visita le opzioni del plugin</value>
+  </item>
+  <item>
+    <key>ErrorNoActivation</key>
+    <value>Attivazione di {0} non possibile.
+
+Impossibile trovare gli oggetti richiesti</value>
+  </item>
+  <item>
+    <key>PWDisplayMode</key>
+    <value>Visualizzazione password</value>
+  </item>
+  <item>
+    <key>PWDisplayModeAlways</key>
+    <value>Sempre</value>
+  </item>
+  <item>
+    <key>PWDisplayModeNever</key>
+    <value>Mai</value>
+  </item>
+  <item>
+    <key>PWDisplayModeEntryView</key>
+    <value>Come elenco voci</value>
+  </item>
+  <item>
+    <key>UseEntryListColumnWidths</key>
+    <value>Larghezza colonne come elenco voci</value>
+  </item>
+</Translation>
