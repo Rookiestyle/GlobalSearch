@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using GlobalSearch.Utilities;
 using KeePass.App.Configuration;
 using KeePass.Forms;
 using KeePass.Plugins;
@@ -122,6 +123,7 @@ namespace GlobalSearch
           "Callstack relevant: " + bSFRelevant.ToString(),
           "Add 'Search db' checkbox: " + bAddCheckbox.ToString());
         if (!bSFRelevant) PluginDebug.AddInfo("Callstack", 0, lSF.ToArray());
+        bAddCheckbox = true;
         if (bAddCheckbox && AddCheckBox(e.Form))
         {
           m_sf = e.Form as SearchForm;
@@ -187,38 +189,51 @@ namespace GlobalSearch
 
     private bool AddCheckBox(Form form)
     {
-      CheckBox m_cbIgnoreGroupSettings = (CheckBox)Tools.GetControl("m_cbIgnoreGroupSettings", form);
-      CheckBox m_cbDerefData = (CheckBox)Tools.GetControl("m_cbDerefData", form);
+      //CheckBox m_cbIgnoreGroupSettings = (CheckBox)Tools.GetControl("m_cbIgnoreGroupSettings", form);
+      //CheckBox m_cbDerefData = (CheckBox)Tools.GetControl("m_cbDerefData", form);
+      GroupBox m_grpOptions = (GroupBox)Tools.GetControl("m_grpOptions", form);
       m_btnOK = (Button)Tools.GetControl("m_btnOK", form);
       Button btnCancel = (Button)Tools.GetControl("m_btnCancel", form);
       Button btnHelp = (Button)Tools.GetControl("m_btnHelp", form); //KeePass 2.47
-      if ((m_cbIgnoreGroupSettings == null) || (m_cbDerefData == null) || (m_btnOK == null) || (btnCancel == null))
+      //if ((m_cbIgnoreGroupSettings == null) || (m_cbDerefData == null) || (m_btnOK == null) || (btnCancel == null))
+      if ((m_grpOptions == null) || (m_btnOK == null) || (btnCancel == null))
       {
         PluginDebug.AddError("Could not add 'Search in all DB' checkbox", 0,
-          "m_cbIgnoreGroupSettings: " + (m_cbIgnoreGroupSettings == null).ToString(),
-          "m_cbDerefData: " + (m_cbDerefData == null).ToString(),
-          "m_btnOK: " + (m_btnOK == null).ToString(),
-          "m_btnCancel: " + (btnCancel == null).ToString(),
-          "m_btnHelp: " + (btnHelp == null).ToString());
+          "m_grpOptions: " + (m_grpOptions != null).ToString(),
+          //"m_cbIgnoreGroupSettings: " + (m_cbIgnoreGroupSettings == null).ToString(),
+          //"m_cbDerefData: " + (m_cbDerefData == null).ToString(),
+          "m_btnOK: " + (m_btnOK != null).ToString(),
+          "m_btnCancel: " + (btnCancel != null).ToString(),
+          "m_btnHelp: " + (btnHelp != null).ToString());
         return false;
       }
       m_cbSearchAllDatabases = new CheckBox();
       m_cbSearchAllDatabases.Name = "m_cbRookieSearchAllDB";
       m_cbSearchAllDatabases.Text = PluginTranslate.Search;
       m_cbSearchAllDatabases.AutoSize = true;
-      m_cbSearchAllDatabases.Left = m_cbDerefData.Left;
-      int spacing = m_cbDerefData.Top - m_cbIgnoreGroupSettings.Top;
-      m_cbSearchAllDatabases.Top = m_cbDerefData.Top + spacing;
-      Control c = m_cbDerefData.Parent;
+      m_cbSearchAllDatabases.Left = m_grpOptions.Controls[0].Left;
+      List<int> lTopPositions = new List<int>();
+      for (int i = 0; i < m_grpOptions.Controls.Count; i++)
+      {
+        //Sequence of controls in m_grpOptions might be different than the order in which they are displayed
+        lTopPositions.Add(m_grpOptions.Controls[i].Top);
+      }
+      lTopPositions.Sort();
+      int iSpacing = lTopPositions[1] - lTopPositions[0];
+      m_cbSearchAllDatabases.Top = lTopPositions[lTopPositions.Count - 1];// Math.Max(m_cbSearchAllDatabases.Top, m_grpOptions.Controls[i].Top);
+      m_cbSearchAllDatabases.Top += iSpacing;
+      Control c = m_grpOptions;
       while (c != null)
       {
-        c.Height += spacing;
+        c.Height += iSpacing;
         c = c.Parent;
       }
-      m_btnOK.Top += spacing;
-      btnCancel.Top += spacing;
-      if (btnHelp != null) btnHelp.Top += spacing;
-      m_cbDerefData.Parent.Controls.Add(m_cbSearchAllDatabases);
+      m_btnOK.Top += iSpacing;
+      btnCancel.Top += iSpacing;
+      if (btnHelp != null) btnHelp.Top += iSpacing;
+      m_grpOptions.Controls.Add(m_cbSearchAllDatabases);
+      var kt = new KeeThemeStub();
+      if (kt.Enabled) kt.Visit(m_cbSearchAllDatabases);
       PluginDebug.AddInfo("'Search db' checkbox added", 0);
       if (m_cbSearchAllDatabases.Enabled)
         m_cbSearchAllDatabases.CheckedChanged += OnSelectAllDB_CheckedChanged;

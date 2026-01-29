@@ -62,6 +62,7 @@
     <Compile Include="SpecialSearches\SearchHelp.cs" />
     <Compile Include="Utilities\Debug.cs" />
     <Compile Include="Utilities\EventHelper.cs" />
+    <Compile Include="Utilities\KeeThemeStub.cs" />
     <Compile Include="Utilities\Tools_Controls.cs" />
     <Compile Include="Utilities\Tools_ListView_Sortable.cs" />
     <Compile Include="Utilities\Tools_Main.cs" />
